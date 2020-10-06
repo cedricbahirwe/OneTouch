@@ -1,2 +1,2 @@
 # OneTouch
-A sample rotation 
+A sample rotation game 
