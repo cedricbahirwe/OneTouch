@@ -15,12 +15,11 @@ enum Colors: Int {
 }
 
 struct ContentView: View {
-    
+    static let offWhite = Color(red: 225 / 255, green: 225 / 255, blue: 235 / 255)
     
     
     @State private var score = 0
     @State private var bestScore = 0
-    
     @State private var offSet = CGSize.zero
     @State private var timer = Timer.publish(every: 0.085, on: .main, in: .common).autoconnect()
     @State private var rotationAngle = 0.0
@@ -36,8 +35,10 @@ struct ContentView: View {
                     Circle()
                         .fill(self.ballColor)
                         .frame(width: 60, height: 60)
-                        .shadow(color: .white, radius: 5)
+                        .shadow(color: Self.offWhite, radius: 5)
+                        .offset(y: -85)
                         .offset(self.offSet)
+                        .opacity(self.offSet == .zero ? 0 : 1)
                         .zIndex(10)
                     
                     Spacer()
@@ -109,7 +110,7 @@ struct ContentView: View {
                 }
                 .frame(width: geo.size.width, height: geo.size.height)
                     
-                .background(Color.black.opacity(0.75).edgesIgnoringSafeArea([.top, .bottom]))
+                .background(Color.black.edgesIgnoringSafeArea([.top, .bottom]))
                 .alert(isPresented: self.$showAlert) {
                     Alert(title: Text("You Failed"), message: Text("Try again to go over your best score"), dismissButton: .cancel(Text("Try again"), action: {
                         self.timer =  Timer.publish (every: 0.05, on: .current, in:
@@ -119,17 +120,17 @@ struct ContentView: View {
                 .onReceive(self.timer) { value in
                     
                     if (0...100).contains(self.score) {
-                         self.speed = 15
+                         self.speed = 30
                     } else if (101...250).contains(self.score) {
-                        self.speed = 25
+                        self.speed = 50
                     } else if (251...350).contains(self.score) {
                          self.speed = 35
                     } else if (351...).contains(self.score)  {
-                        self.speed = 40
+                        self.speed = 70
                     }
                     
-                    withAnimation {
-                        if self.offSet.height >= ((2 * geo.size.height/3) - 40) {
+                    withAnimation(.spring(response: 0.5,dampingFraction: 0.7,blendDuration: 0.5)) {
+                        if self.offSet.height >= ((2 * geo.size.height/3) - 40 + 80) {
                             self.timer.upstream.connect().cancel()
                             
                             
@@ -164,6 +165,7 @@ struct ContentView: View {
                     }
                     .foregroundColor(Color.white)
                     .padding(.horizontal)
+                    .padding(.top, 5)
                     .offset(y: -10)
                     Spacer()
                 }
