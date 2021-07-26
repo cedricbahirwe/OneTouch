@@ -157,12 +157,12 @@ struct ContentView: View {
                 VStack {
                     HStack {
                         Text("Score: ")
-                            .font(.system(size: 14, weight: .regular, design: .monospaced))
                             + Text(self.score.description)
                         Spacer()
-                        Text("Best: ").font(.system(size: 14, weight: .regular, design: .monospaced))
+                        Text("Best: ")
                             + Text(self.bestScore.description)
                     }
+                    .font(.system(size: 25, weight: .semibold, design:.monospaced))
                     .foregroundColor(Color.white)
                     .padding(.horizontal)
                     .padding(.top, 5)
