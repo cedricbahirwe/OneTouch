@@ -1,8 +1,4 @@
 # OneTouch
 A sample rotation game 
 
-
-
-Home View                 
-:-------------------------:|
-![](home.png)
+<img src="home.png" width="400" height="800">
